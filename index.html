@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vacations</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%230c1117'/><circle cx='50' cy='50' r='44' fill='none' stroke='%23d4a847' stroke-width='2'/><path d='M30 65 Q50 25 70 65' fill='none' stroke='%23d4a847' stroke-width='2.5' stroke-linecap='round'/><circle cx='50' cy='42' r='3' fill='%23d4a847'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0c1117;
+    --slate: #161d27;
+    --chalk: #f5f0e1;
+    --cream: #e8e0cc;
+    --gold: #d4a847;
+    --gold-dim: rgba(212,168,71,0.35);
+    --dirt: #b8926a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--ink);
+    color: var(--chalk);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 100%, rgba(212,168,71,0.04) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 50% at 20% 0%, rgba(26,90,58,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 80% 20%, rgba(61,44,94,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
+
+  .compass {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fade-down 0.8s ease-out 0.2s forwards;
+  }
+  .compass svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  header {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: fade-up 0.8s ease-out 0.4s forwards;
+  }
+
+  .rule {
+    width: 48px;
+    height: 2px;
+    background: var(--gold);
+    margin: 0 auto 1.4rem;
+    opacity: 0.5;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    line-height: 1;
+    color: var(--chalk);
+  }
+
+  .tagline {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--dirt);
+    margin-top: 0.8rem;
+  }
+
+  .trips {
+    margin-top: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: fade-up 0.8s ease-out 0.7s forwards;
+  }
+
+  .year-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    padding: 0 0 0.6rem;
+    border-bottom: 1px solid rgba(212,168,71,0.08);
+    margin-bottom: 0.4rem;
+  }
+
+  .trip-link {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1rem 1.6rem;
+    text-decoration: none;
+    color: var(--chalk);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  .trip-link:hover {
+    background: rgba(212,168,71,0.04);
+  }
+  .trip-link:hover .trip-title {
+    color: var(--gold);
+  }
+  .trip-link:hover .trip-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .trip-icon {
+    font-size: 1.3rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(212,168,71,0.06);
+    border: 1px solid rgba(212,168,71,0.1);
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .trip-details {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .trip-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    transition: color 0.3s ease;
+  }
+
+  .trip-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dirt);
+    margin-top: 0.25rem;
+    opacity: 0.7;
+  }
+
+  .trip-arrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--gold);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: all 0.3s ease;
+  }
+
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 1.5rem;
+    z-index: 1;
+  }
+  footer span {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--dirt);
+    opacity: 0.3;
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fade-down {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 480px) {
+    .trip-link { padding: 0.8rem 1rem; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="compass">
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="40" cy="40" r="38" stroke="var(--gold)" stroke-width="1" opacity="0.25"/>
+      <circle cx="40" cy="40" r="32" stroke="var(--gold)" stroke-width="0.5" opacity="0.12"/>
+      <line x1="40" y1="6" x2="40" y2="18" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+      <line x1="40" y1="62" x2="40" y2="74" stroke="var(--gold)" stroke-width="1" stroke-linecap="round" opacity="0.2"/>
+      <line x1="6" y1="40" x2="18" y2="40" stroke="var(--gold)" stroke-width="1" stroke-linecap="round" opacity="0.2"/>
+      <line x1="62" y1="40" x2="74" y2="40" stroke="var(--gold)" stroke-width="1" stroke-linecap="round" opacity="0.2"/>
+      <polygon points="40,16 44,36 40,32 36,36" fill="var(--gold)" opacity="0.7"/>
+      <polygon points="40,64 44,44 40,48 36,44" fill="var(--dirt)" opacity="0.3"/>
+      <circle cx="40" cy="40" r="2.5" fill="var(--gold)" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <header>
+    <div class="rule"></div>
+    <h1>Vacations</h1>
+    <p class="tagline">Travel &amp; Inspiration</p>
+  </header>
+
+  <nav class="trips">
+    <div class="year-label">2026</div>
+    <a class="trip-link" href="2026/trains-and-baseball.html">
+      <span class="trip-icon">&#9858;</span>
+      <div class="trip-details">
+        <div class="trip-title">Trains &amp; Baseball</div>
+        <div class="trip-meta">Midwest Amtrak Loop &middot; April</div>
+      </div>
+      <span class="trip-arrow">&rarr;</span>
+    </a>
+  </nav>
+
+  <footer>
+    <span>A place for travel &amp; inspiration</span>
+  </footer>
+
+</body>
+</html>

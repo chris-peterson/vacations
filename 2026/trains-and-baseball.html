@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Midwest Amtrak Baseball Loop — April 2026</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%231a1a18'/><circle cx='50' cy='50' r='44' fill='none' stroke='%23d4a847' stroke-width='2.5'/><circle cx='50' cy='50' r='40' fill='none' stroke='%23d4a847' stroke-width='0.8' opacity='0.4'/><path d='M 37,14 C 40,26 44,38 50,50 C 44,62 40,74 37,86' fill='none' stroke='%23d4a847' stroke-width='2.5' stroke-linecap='round' opacity='0.7'/><path d='M 63,14 C 60,26 56,38 50,50 C 56,62 60,74 63,86' fill='none' stroke='%23d4a847' stroke-width='2.5' stroke-linecap='round' opacity='0.7'/><line x1='12' y1='62' x2='88' y2='38' stroke='%23d4a847' stroke-width='3' stroke-linecap='round'/><line x1='12' y1='62' x2='88' y2='38' stroke='%231a1a18' stroke-width='1' stroke-dasharray='1 5' stroke-linecap='round'/><circle cx='28' cy='54' r='1.5' fill='%23d4a847' opacity='0.5'/><circle cx='72' cy='42' r='1.5' fill='%23d4a847' opacity='0.5'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0c1117;
+    --slate: #161d27;
+    --card-dark: #1c2430;
+    --field: #1a5a3a;
+    --field-deep: #133d28;
+    --dirt: #b8926a;
+    --chalk: #f5f0e1;
+    --cream: #e8e0cc;
+    --leather: #c8956a;
+    --gold: #d4a847;
+    --gold-dim: rgba(212,168,71,0.35);
+    --red: #bf3636;
+    --rail-purple: #3d2c5e;
+    --rail-surface: #2a2240;
+    --stats-h: 3.4rem;
+    --paper: #e8dcc8;
+    --paper-dark: #d4c4a8;
+    --paper-ink: #2c2418;
+    --paper-muted: #6b5d4a;
+    --paper-rule: #c4b494;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--ink);
+    color: var(--chalk);
+    min-height: 100vh;
+    position: relative;
+  }
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
+
+  .hero {
+    background:
+      radial-gradient(ellipse 100% 80% at 50% 120%, var(--field) 0%, transparent 60%),
+      var(--ink);
+    text-align: center;
+    padding: 3.5rem 2rem 2.5rem;
+    position: relative;
+    border-bottom: 1px solid rgba(212,168,71,0.08);
+  }
+  .hero-rule {
+    width: 60px; height: 2px; background: var(--gold); margin: 0 auto 1.2rem;
+    opacity: 0.6;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 400; text-transform: uppercase;
+    letter-spacing: 0.08em; line-height: 1.0; color: var(--chalk);
+  }
+  .hero h1 em { font-style: normal; color: var(--gold); }
+  .hero .subtitle {
+    font-family: 'DM Mono', monospace; font-size: 0.8rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--dirt); margin-top: 0.6rem;
+  }
+  .hero .dates {
+    margin-top: 0.9rem; font-size: 1rem; color: var(--cream);
+    font-weight: 500; letter-spacing: 0.02em;
+  }
+  .hero .all-times {
+    margin-top: 0.3rem; font-size: 0.75rem; color: var(--dirt); opacity: 0.7;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .stats {
+    display: flex; align-items: center; gap: 0; flex-wrap: wrap;
+    background: var(--slate);
+    border-bottom: 1px solid rgba(212,168,71,0.12);
+    position: sticky; top: 0; z-index: 200;
+  }
+  .stats-title {
+    display: none; padding: 0.6rem 1.2rem;
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem;
+    color: var(--chalk); letter-spacing: 0.06em; line-height: 1;
+    white-space: nowrap; margin-right: auto;
+  }
+  .stats-title em { font-style: normal; color: var(--gold); }
+  .stats-title .stats-dates {
+    font-family: 'DM Mono', monospace; font-size: 0.6rem;
+    color: var(--dirt); letter-spacing: 0.1em; display: block;
+    margin-top: 0.15rem;
+  }
+  .stats.scrolled .stats-title { display: block; }
+  .stats:not(.scrolled) { justify-content: center; }
+  .stat {
+    text-align: center; padding: 0.9rem 1.8rem;
+    position: relative;
+  }
+  .stat + .stat::before {
+    content: ''; position: absolute; left: 0; top: 25%; height: 50%;
+    width: 1px; background: rgba(212,168,71,0.12);
+  }
+  .stat-val {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem;
+    color: var(--gold); line-height: 1;
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace; font-size: 0.6rem;
+    text-transform: uppercase; letter-spacing: 0.15em;
+    color: var(--cream); opacity: 0.5; margin-top: 0.2rem;
+  }
+
+  .main-layout {
+    display: flex; max-width: 1400px; margin: 0 auto;
+    padding: 2rem 1.5rem; gap: 2rem; align-items: flex-start;
+  }
+  .map-panel {
+    flex: 0 0 55%; position: sticky;
+    top: calc(var(--stats-h) + 1.2rem);
+    align-self: flex-start;
+    max-height: calc(100vh - var(--stats-h) - 2.4rem);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .timeline-panel { flex: 1; min-width: 0; }
+
+  .map-container {
+    background:
+      radial-gradient(ellipse at 30% 40%, rgba(26,90,58,0.08), transparent 60%),
+      var(--slate);
+    border-radius: 6px 6px 0 0;
+    border: 1px solid rgba(245,240,225,0.06);
+    border-bottom: none;
+    overflow: hidden; padding: 1rem;
+    position: relative;
+    flex-shrink: 1;
+    max-height: 45vh;
+  }
+  .map-container::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    box-shadow: inset 0 0 60px rgba(0,0,0,0.4);
+    border-radius: 6px 6px 0 0;
+  }
+  .map-container svg { width: 100%; height: auto; display: block; position: relative; z-index: 1; }
+
+  /* Scrapbook panel below map */
+  .scrapbook {
+    background:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.06'/%3E%3C/svg%3E"),
+      linear-gradient(168deg, #e8dcc8 0%, #ddd0b8 40%, #d8caac 100%);
+    background-size: 150px, 100%;
+    border-radius: 0 0 6px 6px;
+    border: 1px solid rgba(180,160,120,0.3);
+    border-top: none;
+    margin-top: 3px;
+    padding: 1.2rem 1.1rem 1rem;
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+    min-height: 0;
+  }
+  .scrapbook::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 45% 40% at 85% 20%, rgba(160,120,60,0.1), transparent),
+      radial-gradient(ellipse 30% 35% at 15% 75%, rgba(140,100,40,0.07), transparent),
+      radial-gradient(circle at 72% 80%, rgba(120,90,40,0.06), transparent 60%);
+  }
+  .scrapbook::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 8px;
+    z-index: 3; pointer-events: none;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.15), transparent);
+  }
+
+  .scrap-header {
+    display: flex; align-items: baseline; gap: 0.6rem;
+    margin-bottom: 0.7rem; padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--paper-ink);
+    position: relative; z-index: 1;
+  }
+  .scrap-header::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 1px; background: var(--paper-ink); opacity: 0.25;
+  }
+  .scrap-city {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem;
+    color: var(--paper-ink); letter-spacing: 0.06em;
+    line-height: 1;
+  }
+  .scrap-date {
+    font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    color: var(--paper-muted); letter-spacing: 0.06em;
+  }
+  .scrap-badge {
+    font-family: 'DM Mono', monospace; font-size: 0.55rem;
+    background: var(--field-deep); color: var(--gold);
+    padding: 0.1rem 0.4rem; border-radius: 1px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-left: auto;
+  }
+
+  .scrap-body {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.4s ease 0.05s, transform 0.4s ease 0.05s;
+    position: relative; z-index: 1;
+  }
+  .scrap-body.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .clipping {
+    background:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)' opacity='0.03'/%3E%3C/svg%3E"),
+      linear-gradient(145deg, rgba(255,255,255,0.32), rgba(245,235,215,0.15) 40%, rgba(230,218,195,0.08));
+    border: none;
+    border-left: 2px solid rgba(180,160,120,0.2);
+    border-bottom: 1px solid rgba(180,160,120,0.15);
+    padding: 0.65rem 0.75rem;
+    margin-bottom: 0.6rem;
+    position: relative;
+    box-shadow:
+      2px 2px 4px rgba(0,0,0,0.08),
+      inset 0 0 20px rgba(160,130,80,0.04);
+  }
+  .clipping::before {
+    content: '';
+    position: absolute; top: 0; right: 0; bottom: 0;
+    width: 3px; pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg width='3' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2,0 C1,8 3,16 1,24 C0,32 2,40 1,48 C3,56 0,64 2,72 C1,80 3,88 1,96 C0,104 2,112 1,120 C3,128 0,136 2,144 C1,152 3,160 1,168 C0,176 2,184 1,192 C3,200 2,200 2,200 L3,200 L3,0 Z' fill='%23e8dcc8'/%3E%3C/svg%3E");
+    background-size: 3px 200px;
+  }
+  .clipping:nth-child(odd) { transform: rotate(-0.4deg); }
+  .clipping:nth-child(even) { transform: rotate(0.5deg); }
+  .clipping:nth-child(3n) { transform: rotate(-0.2deg) translateX(1px); }
+  .clipping:last-child { margin-bottom: 0; }
+
+  .clipping-label {
+    font-family: 'DM Mono', monospace; font-size: 0.55rem;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--paper-muted); margin-bottom: 0.3rem;
+    border-bottom: 1px solid var(--paper-rule);
+    padding-bottom: 0.2rem;
+  }
+  .clipping p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem; line-height: 1.55;
+    color: var(--paper-ink); opacity: 0.85;
+  }
+  .clipping p + p { margin-top: 0.25rem; }
+
+  .clipping-tip {
+    display: flex; gap: 0.4rem; align-items: flex-start;
+    font-size: 0.75rem; line-height: 1.45;
+    color: var(--paper-ink); opacity: 0.8;
+    margin-bottom: 0.25rem;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .clipping-tip:last-child { margin-bottom: 0; }
+  .clipping-tip-icon { flex-shrink: 0; font-size: 0.8rem; }
+
+  .clipping a, .clipping-tip a {
+    color: var(--paper-ink); text-decoration: underline;
+    text-decoration-color: var(--paper-rule);
+    text-underline-offset: 2px;
+    transition: text-decoration-color 0.2s;
+  }
+  .clipping a:hover, .clipping-tip a:hover {
+    text-decoration-color: var(--paper-ink);
+  }
+
+  .scrap-ornament {
+    text-align: center; padding: 0.3rem 0;
+    font-family: 'DM Mono', monospace; font-size: 0.6rem;
+    color: var(--paper-rule); letter-spacing: 0.5em;
+  }
+
+  /* Tape effect on corners */
+  .tape {
+    position: absolute; width: 42px; height: 14px;
+    background: linear-gradient(180deg, rgba(212,190,120,0.3), rgba(200,175,100,0.18));
+    border: 1px solid rgba(212,168,71,0.1);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    z-index: 4;
+  }
+  .tape-tl { top: -5px; left: 12px; transform: rotate(-8deg); }
+  .tape-tr { top: -5px; right: 12px; transform: rotate(5deg); }
+
+  .state { fill: rgba(245,240,225,0.025); stroke: rgba(245,240,225,0.05); stroke-width: 0.5; stroke-linejoin: round; }
+  .state-route { fill: rgba(26,90,58,0.12); stroke: rgba(245,240,225,0.07); }
+  .map-route-done { stroke: var(--gold); opacity: 0.35; }
+  .map-route-future { stroke: rgba(245,240,225,0.15); stroke-dasharray: 6 5; }
+  .map-route-glow {
+    stroke: var(--gold); stroke-width: 4; fill: none;
+    opacity: 0.45; filter: url(#routeGlow);
+    stroke-linecap: round;
+    pointer-events: none;
+  }
+  .city-dot { fill: rgba(245,240,225,0.2); transition: fill 0.4s, r 0.3s; }
+  .city-dot.active { fill: var(--gold); }
+  .city-dot.visited { fill: var(--gold); opacity: 0.5; }
+  .city-dot.game-city { stroke: var(--field); stroke-width: 1.5; }
+  .city-label {
+    font-family: 'DM Mono', monospace; font-size: 7px; fill: var(--cream);
+    text-anchor: middle; opacity: 0.5; pointer-events: none;
+    transition: opacity 0.4s; letter-spacing: 0.08em;
+  }
+  .city-label.active { opacity: 1; fill: var(--gold); font-size: 8px; }
+  @keyframes pulse-glow {
+    0%, 100% { r: 12; opacity: 0.3; }
+    50% { r: 18; opacity: 0; }
+  }
+  .pulse-ring { fill: var(--gold); animation: pulse-glow 2.5s ease-in-out infinite; }
+  @keyframes throb-ring {
+    0%, 100% { r: 16; opacity: 0.5; }
+    50% { r: 28; opacity: 0; }
+  }
+  @keyframes throb-ring-2 {
+    0%, 100% { r: 12; opacity: 0.3; }
+    50% { r: 22; opacity: 0; }
+  }
+  .pulse-ring.throb { fill: var(--field); animation: throb-ring 1.8s ease-in-out infinite; }
+  #throbRing2 { display: none; fill: var(--gold); }
+  #throbRing2.throb { display: block; animation: throb-ring-2 1.8s ease-in-out infinite 0.4s; }
+
+  .timeline { position: relative; padding: 0.5rem 0 3rem; }
+  .timeline::before {
+    content: ''; position: absolute; left: 11px; top: 0; bottom: 0; width: 1px;
+    background: rgba(245,240,225,0.07);
+  }
+
+  .day-group {
+    margin-bottom: 1.8rem; position: relative;
+    cursor: pointer;
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .day-group.visible { opacity: 1; transform: translateY(0); }
+  .day-group.visible.past { opacity: 0.4; }
+  .day-group.past .card {
+    position: relative;
+    overflow: hidden;
+  }
+  .day-group.past .card::after {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 24px; height: 24px;
+    background: linear-gradient(135deg, transparent 50%, var(--ink) 50%);
+    opacity: 0.5;
+  }
+  .day-group.past .day-dot { opacity: 0.3; }
+  .day-group.past:hover { opacity: 0.7; }
+  .day-group.active { opacity: 1; }
+  .day-group.active .day-dot {
+    background: var(--gold); opacity: 1;
+    box-shadow: 0 0 0 3px rgba(212,168,71,0.2);
+  }
+  .day-group.active .day-label { color: var(--gold); }
+  .day-group.active .card { border-color: rgba(212,168,71,0.25); }
+  .day-group.active .card--game { border-color: rgba(212,168,71,0.35); }
+
+  .day-header {
+    display: flex; align-items: center; gap: 0.65rem;
+    margin-bottom: 0.65rem; position: relative; z-index: 1;
+  }
+  .day-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--dirt); opacity: 0.5;
+    flex-shrink: 0; margin-left: 8px;
+    transition: all 0.3s ease;
+  }
+  .day-group[data-day] .day-dot { background: var(--gold); opacity: 0.8; }
+  .day-label {
+    font-family: 'DM Mono', monospace; font-size: 0.7rem;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--dirt);
+    transition: color 0.3s ease;
+  }
+
+  .card {
+    margin-left: 32px; margin-bottom: 0.5rem;
+    padding: 0.85rem 1rem; position: relative;
+    transition: transform 0.2s ease, border-color 0.3s ease;
+  }
+  .card { cursor: pointer; }
+  .card:hover { transform: translateX(3px); }
+  .card--active { border-color: rgba(212,168,71,0.4) !important; }
+
+  .card--transit {
+    background: var(--rail-surface);
+    border: 1px solid rgba(212,168,71,0.06);
+    border-left: 3px solid var(--leather);
+    border-radius: 2px;
+    position: relative;
+  }
+  .card--transit::before {
+    content: '';
+    position: absolute; top: 50%; left: -8px;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--ink); border: 1px solid rgba(200,149,106,0.3);
+    transform: translateY(-50%);
+  }
+
+  .card--game {
+    background: linear-gradient(135deg, var(--field-deep), #1a4a30);
+    border: 1px solid rgba(212,168,71,0.1);
+    border-left: 3px solid var(--gold);
+    border-radius: 2px;
+    position: relative;
+  }
+  .card--game::before {
+    content: '';
+    position: absolute; top: 50%; left: -8px;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--ink); border: 1px solid var(--gold-dim);
+    transform: translateY(-50%);
+  }
+
+  .card-top { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem; }
+  .card-icon { font-size: 1rem; flex-shrink: 0; }
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1rem;
+    letter-spacing: 0.04em; color: var(--chalk);
+  }
+  .card--game .card-title { color: var(--gold); font-size: 1.05rem; }
+
+  .card-meta {
+    display: flex; flex-wrap: wrap; gap: 0.3rem 0.8rem;
+    font-size: 0.78rem; color: var(--dirt);
+  }
+  .card-meta strong {
+    font-family: 'DM Mono', monospace; font-weight: 500;
+    color: var(--cream); font-size: 0.75rem;
+  }
+
+  .card--game .matchup {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-family: 'DM Mono', monospace;
+    background: rgba(0,0,0,0.3); padding: 0.2rem 0.55rem; border-radius: 2px;
+    font-size: 0.7rem; font-weight: 500; color: var(--chalk); margin-top: 0.35rem;
+    letter-spacing: 0.06em;
+  }
+  .matchup .at { color: var(--dirt); font-weight: 400; }
+
+  .sleep-badge {
+    display: inline-flex; align-items: center; gap: 0.25rem; margin-top: 0.35rem;
+    font-size: 0.7rem; color: var(--dirt); opacity: 0.7;
+  }
+
+  @media (max-width: 900px) {
+    .main-layout { flex-direction: column; padding: 1rem; gap: 1rem; }
+    .map-panel { position: static; flex: none; max-height: none; }
+    .timeline { padding-left: 0.5rem; }
+  }
+  @media (max-width: 480px) {
+    .hero { padding: 2.5rem 1rem 2rem; }
+    .stat { padding: 0.7rem 1.2rem; }
+    .card { margin-left: 28px; padding: 0.7rem 0.85rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-rule"></div>
+  <h1>Midwest Amtrak<br><em>Baseball</em> Loop</h1>
+  <p class="subtitle">April 2026</p>
+  <p class="dates">Saturday, April 11 — Sunday, April 19</p>
+  <p class="all-times">all times pacific</p>
+</header>
+
+<div class="stats" id="statsBar">
+  <div class="stats-title">Midwest Amtrak <em>Baseball</em> Loop<span class="stats-dates">Apr 11 – 19, 2026</span></div>
+  <div class="stat"><div class="stat-val">4</div><div class="stat-label">Ball Games</div></div>
+  <div class="stat"><div class="stat-val">9</div><div class="stat-label">Days</div></div>
+  <div class="stat"><div class="stat-val">~92h</div><div class="stat-label">On Rails</div></div>
+</div>
+
+<div class="main-layout">
+  <aside class="map-panel" id="mapSection">
+    <div class="map-container">
+      <svg id="routeMap" viewBox="130 15 650 270" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="routeGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <g id="routeGlowLayer"></g>
+        <path class="state" d="m 162.2384,162.75717 15.43304,4.65903 41.54301,11.45344 3.78546,0.97064 2.71777,0.67944 24.55697,5.82379 13.6859,3.00895 2.71777,0.58238 0.38825,-2.03832 9.221,-38.24287 -2.62071,-6.21204 0.29119,-2.42658 10.09457,-13.20059 4.75609,-11.93876 -3.30015,-3.59134 -0.0971,-1.84419 0,-0.0971 -1.8442,-0.38825 -27.27474,-6.21204 -1.45594,0.67944 -5.33848,-0.87357 -10.774,1.16476 -6.60029,-0.87357 -6.98855,-0.0971 -0.58238,-1.74714 -14.75359,-1.35888 -5.24141,-2.81483 -0.67944,-1.8442 0.58238,-7.279734 -3.49428,-3.785461 -0.29118,0.09706 -0.67945,0.485315 -4.85315,-2.523641 -2.9119,0.873568 -1.94126,-0.970631 -2.03832,8.347429 -1.35889,2.329514 -6.01791,14.656531 -1.74714,8.05624 -1.06769,0.0971 -5.62966,13.39471 -3.78546,5.72672 -1.35889,0.97063 -3.49427,6.79442 -0.67944,7.18267 -2.13539,6.40617 1.26182,5.82378 0,0.0971 z"/>
+        <path class="state" d="m 309.0949,52.881715 -8.63862,-1.747136 -2.81483,-0.679442 -1.26182,-0.291189 -11.25932,50.666952 0.48532,4.17371 -0.38826,4.36784 0.19413,0.97063 0,0.0971 0.0971,1.84419 3.30015,3.59134 -4.75609,11.93876 -10.09457,13.20059 -0.29119,2.42658 2.62071,6.21204 -9.221,38.24287 -0.38825,2.03832 2.71776,0.58238 27.46887,5.43553 10.96813,2.03833 2.81483,0.48532 2.71777,0.48531 13.97709,2.23245 25.04228,3.78546 2.81483,0.38826 0.38825,-3.20309 0.87357,-6.3091 3.30015,-25.23641 1.74714,-12.52114 0.38825,-3.20309 -0.58238,-0.29119 -3.00896,-5.43553 -2.52364,3.30015 -10.19163,-1.0677 -8.05624,0.0971 -0.97063,0.7765 -3.78546,-7.76505 -0.97063,-0.7765 -5.43553,-13.29765 -0.77651,-4.46491 -9.60925,-0.67944 1.8442,-5.33847 1.35888,-0.38825 3.39721,-15.91835 -2.91189,0.19412 -0.67944,-2.03832 -7.18267,-12.035829 -2.52364,-2.135389 -1.8442,-5.047282 0.87357,-0.776505 -1.45595,-5.532598 -1.8442,-3.591335 4.17371,-19.800877 -0.0971,0 z"/>
+        <path class="state" d="m 566.89455,135.57949 -16.40367,0.48532 -39.50469,0.29119 -42.80484,-1.16476 -3.78546,-0.19413 -0.0971,2.23246 -0.38825,8.83274 -0.29119,6.69736 -0.0971,1.35888 -0.29119,0 -0.0971,2.52364 -0.97063,20.38326 -0.7765,15.14184 -0.0971,2.62071 2.9119,0.0971 32.90439,1.06769 27.85712,0.29119 19.12143,-0.19412 6.11498,3.88252 5.14435,-1.45594 3.39721,0.0971 10.57988,3.10602 3.00895,3.00895 1.8442,0.19413 0,-0.67944 -2.13539,-3.20308 1.35889,-5.14435 -1.65008,-10.77401 2.03833,-0.0971 -0.19413,-4.4649 -4.85315,-34.16622 -2.52364,-4.27078 3.88252,-6.40616 0.0971,-0.29119 -3.30014,0.19412 z"/>
+        <path class="state" d="m 661.53109,197.69989 -5.33847,-2.81483 -2.9119,-3.97959 -0.97063,-5.72672 0.77651,-2.62071 -2.81483,-3.39721 0,0 -4.7561,0.48532 -47.75505,3.97959 -19.12144,1.06769 -4.85315,0.29119 -2.03833,0.0971 1.65008,10.77401 -1.35889,5.14435 2.13539,3.20308 0,0.67944 0.67944,0.0971 3.10602,9.12394 3.00896,4.75609 0.19413,5.43554 3.30014,4.56196 -0.58238,1.94126 3.00896,12.22996 0,0.29119 0,0 19.89794,-0.58238 21.25682,-1.8442 20.86857,-2.62071 4.7561,4.17372 0.19412,0.19412 0.87357,-0.38825 -0.67944,-3.78546 3.59133,-2.23245 1.45595,-9.90044 -1.45595,-0.67944 0.87357,-5.04728 4.36784,-0.87357 4.85316,-3.49427 2.13539,-6.11498 0.0971,-3.10602 -3.88252,-3.6884 -1.16476,-2.32951 -3.6884,-2.32952 0.19413,-0.48531 0.0971,-0.48532 z"/>
+        <path class="state" d="m 572.33008,204.68843 -3.00895,-3.00895 -10.57988,-3.10602 -3.39721,-0.0971 -5.14435,1.45594 -6.11498,-3.88252 -19.12143,0.19412 -27.85712,-0.29119 -32.90439,-1.06769 -2.9119,-0.0971 -0.0971,2.52364 -0.38825,7.57092 -0.87357,17.76255 -0.48532,10.19163 -0.0971,2.52364 2.32952,0.0971 23.6834,0.87357 4.65903,0.19413 -0.38826,19.02437 -0.0971,1.26182 3.6884,0.0971 13.10352,0.19413 32.61321,0 16.40367,-0.38825 35.81629,-1.35889 3.30014,-0.19412 -0.38825,-0.38826 -2.6207,-4.65903 -2.23246,-1.553 -2.42657,-4.65903 0.0971,-0.58238 0,-0.29119 -3.00896,-12.22996 0.58238,-1.94126 -3.30014,-4.56196 -0.19413,-5.43554 -3.00896,-4.75609 -3.10602,-9.12394 -0.67944,-0.0971 -1.8442,-0.19413 z"/>
+        <path class="state" d="m 461.38694,192.16729 0.7765,-15.14184 0.97063,-20.38326 0.0971,-2.52364 -1.26182,-0.0971 -24.94522,-1.45595 -13.97709,-1.16476 -26.49823,-2.52364 -33.19559,-4.07665 -1.35888,9.51219 -0.0971,0.58237 -0.38825,3.20309 -1.74714,12.52114 -3.30015,25.23641 -0.87357,6.3091 -0.38825,3.20309 -0.19412,1.26182 -2.42658,18.92731 3.78546,0.48531 24.7511,3.00896 1.94126,0.19412 2.32951,0.29119 23.97459,2.32952 19.2185,1.55301 28.82775,1.8442 1.94126,0.0971 0.0971,-2.52364 0.48532,-10.19163 0.87357,-17.76255 0.38825,-7.57092 0.0971,-2.52364 0.0971,-2.62071 z"/>
+        <path class="state" d="m 750.34384,200.22353 -14.85065,2.62071 -3.39721,0.67944 -12.03583,1.94126 -2.52364,2.03833 -3.78546,1.74713 -1.45595,-0.0971 -1.74714,-0.87357 -0.58237,-0.58238 6.79441,47.85212 -1.35888,5.14435 2.42658,4.56196 0.7765,3.78546 -3.68839,8.63862 -2.13539,1.55301 -0.0971,8.63862 0.38826,0.0971 0.38825,-0.0971 1.45595,-2.71777 3.59133,0 4.36784,-1.45595 5.43554,2.03833 0.58237,-2.23245 3.10602,-2.32952 4.65903,0.67945 2.52365,-4.95022 6.89148,0.58237 -0.0971,-2.81483 6.11498,-8.05623 -0.97063,-3.6884 4.27078,-0.0971 5.2414,-4.17371 -1.26182,-4.75609 0.19413,-0.19413 -0.19413,-1.65007 -5.82378,-34.36035 -2.62071,-14.65653 -0.29119,-1.55301 -0.29119,-1.26182 z"/>
+        <path class="state" d="m 719.96309,138.2002 -0.48532,-0.77651 -0.0971,0.97063 0.58238,-0.19412 z m 1.55301,-1.74714 -1.16476,-1.55301 -0.19413,0.67944 1.35889,0.87357 z m 0.97063,-6.98854 -0.97063,-0.87357 0,0.19412 0.97063,0.67945 z m -2.42658,76.00042 12.03583,-1.94126 3.39721,-0.67944 14.85065,-2.62071 0.29119,1.26182 0.97063,-0.29119 6.40617,-1.35888 6.11498,-1.45595 6.21204,-1.55301 -0.0971,-0.29119 3.20309,-6.3091 -0.29119,-5.24141 3.59133,-9.02687 2.81483,1.65007 1.0677,-2.03832 -0.29119,-7.76505 -2.62071,-4.85316 -3.88252,-10.28869 -3.39721,-3.78546 -1.74714,-0.48531 -6.3091,4.36784 0.67944,0.87356 -3.30014,6.21204 -3.20309,-0.58238 -0.97063,-6.50322 1.35889,-0.48532 2.81483,-6.50323 0.29119,-11.45345 -4.36784,-9.70631 -9.70632,-1.65007 -0.97063,-1.45595 -9.02687,-2.6207 -4.07665,5.04728 0.38825,4.36784 -3.10602,3.88252 0.67945,6.01792 -3.00896,2.13539 0,-7.57093 -2.71777,5.72673 -3.20308,5.04728 -2.13539,1.65007 1.06769,5.33847 -1.35888,5.5326 0.77651,6.89148 -0.97064,3.39721 6.98855,13.39471 0.87357,5.14435 -0.87357,9.51218 -4.65903,10.67695 -0.58238,0.38825 z m 20.77151,-87.45387 -2.52364,0.19412 1.55301,1.16476 0.97063,-1.35888 z m -14.7536,2.52364 -0.7765,0 0.87357,0.38825 -0.0971,-0.38825 z m 16.98605,-12.32702 -0.97063,-1.55301 -0.38825,0.0971 1.35888,1.45594 z m -87.93919,7.08561 3.10602,1.74714 15.91835,4.85315 7.3768,1.94127 7.18267,0.48531 5.24141,4.27078 0,6.60029 4.65903,4.65903 0,-0.0971 3.78546,-10.96814 4.56197,-3.20308 3.49427,-3.88252 0.58238,3.49427 3.59134,-5.5326 8.63861,-3.30014 0.67945,-1.35889 8.73568,1.0677 3.39721,1.74713 1.65007,-4.27077 1.55301,0.97063 6.79442,-1.0677 -1.65008,-2.71777 -3.00895,-1.74713 0.58238,-6.3091 -5.92085,3.30014 -5.43554,-0.67944 -1.74714,-4.17371 0.58238,-1.358888 -7.37679,3.494268 -4.7561,0.29119 -8.54155,5.24141 -0.97063,1.94126 -5.24141,-1.26182 -3.30015,1.45595 -6.60029,-5.72672 -14.65653,-4.46491 -0.29119,-1.747133 -9.41512,9.026873 -5.33847,1.35888 -7.57093,5.72673 -0.29119,0.19412 z"/>
+        <path class="state state-route" d="m 192.13384,77.050432 0.0971,-1.650073 -0.19412,0.09706 0.0971,1.55301 z m 20.67445,-8.832744 0.58237,-0.970631 -0.67944,-0.09706 0.0971,1.067694 z m -1.8442,-1.747136 0.58237,-1.941262 -0.58237,-0.194127 0,2.135389 z m 7.0856,-2.814831 -0.0971,-1.941262 -1.65007,2.523641 1.74713,-0.582379 z m 0.19413,-4.076651 0.29119,-1.941262 -0.19413,-0.485316 -0.0971,2.426578 z m 0.29119,-9.512185 -0.0971,-1.067695 -0.38826,-0.09706 0.48532,1.164758 z m 3.10602,-6.406166 -0.87357,-0.09706 -1.74713,2.717767 2.6207,-2.620704 z m -2.42658,-2.620705 0.48532,-0.388252 0.0971,-0.291189 -0.58238,0.679441 z m -0.48531,0.29119 -0.29119,-1.941263 -0.87357,1.650073 1.16476,0.29119 z m -0.48532,-2.717768 -0.87357,-0.388252 0.67944,0.970631 0.19413,-0.582379 z m 2.91189,1.650074 0,-1.261821 -0.29119,0.485316 0.29119,0.776505 z m 0.87357,-1.261821 -0.38825,-0.291189 -0.0971,0 0.48531,0.291189 z m -5.5326,-2.135389 -0.48531,-0.388252 -0.19413,-0.09706 0.67944,0.485315 z m 3.59134,-0.388252 -2.6207,0.679442 0.67944,0.194126 1.94126,-0.873568 z m -2.13539,-0.194126 -0.48531,-0.582379 -0.0971,0.09706 0.58238,0.485316 z m 2.03833,-1.164758 -0.38826,0 0.48532,0.194126 -0.0971,-0.194126 z m -19.02438,49.793381 3.49428,3.785461 -0.58238,7.279734 0.67944,1.8442 5.24141,2.81483 14.75359,1.35888 0.58238,1.74714 6.98855,0.0971 6.60029,0.87357 10.774,-1.16476 5.33848,0.87357 1.45594,-0.67944 27.27474,6.21204 1.8442,0.38825 -0.19413,-0.97063 0.38826,-4.36784 -0.48532,-4.17371 11.25932,-50.666952 -1.55301,-0.29119 -22.71277,-5.338471 -19.80087,-5.047282 -22.42159,-6.21204 -6.69735,-1.650073 1.55301,8.444491 -1.45595,2.717768 -2.6207,-1.358884 2.52364,11.744637 -2.71777,3.882525 -1.26182,3.591336 0,3.688398 -5.72672,3.979588 -2.42658,-1.55301 -2.32952,1.164758 4.27078,-5.532598 -1.06769,3.785462 2.42658,-2.620705 1.94126,0.388253 -0.58238,-4.853156 1.26182,0.194126 2.6207,-5.823787 -0.87356,-0.873568 -3.39721,4.36784 -2.23246,0.09706 2.42658,-2.717767 2.71777,-0.679442 -0.97063,-4.950219 -2.71777,-0.679442 -1.35888,-2.329515 -1.65008,0.873568 -8.9298,-3.882524 -7.86211,-6.114977 -2.13539,5.92085 -0.19413,2.523641 1.65007,4.464904 -1.06769,14.462405 -0.77651,2.232452 4.36784,0.388252 -4.36784,3.10602 2.32952,1.164757 -1.8442,6.21204 -0.87357,-4.853156 -1.65007,5.629661 2.23245,2.717767 2.42658,-0.194126 2.91189,1.747136 1.45595,2.814831 1.74713,0 0,0 z"/>
+        <path class="state state-route" d="m 465.65771,72.973781 -32.12789,-2.135389 -23.39221,-2.232451 -23.29515,-2.717768 -14.46241,-1.941262 -23.10102,-3.591336 -11.55051,-1.941262 -25.81879,-4.950219 -2.71777,-0.582379 -4.17371,19.800877 1.8442,3.591335 1.45595,5.532598 -0.87357,0.776505 1.8442,5.047282 2.52364,2.135389 7.18267,12.035829 0.67944,2.03832 2.91189,-0.19412 -3.39721,15.91835 -1.35888,0.38825 -1.8442,5.33847 9.60925,0.67944 0.77651,4.46491 5.43553,13.29765 0.97063,0.7765 3.78546,7.76505 0.97063,-0.7765 8.05624,-0.0971 10.19163,1.0677 2.52364,-3.30015 3.00896,5.43553 0.58238,0.29119 0.0971,-0.58237 1.35888,-9.51219 33.19559,4.07665 26.49823,2.52364 13.97709,1.16476 24.94522,1.45595 1.26182,0.0971 0.29119,0 0.0971,-1.35888 0.29119,-6.69736 0.38825,-8.83274 0.0971,-2.23246 0.19413,-3.88252 1.55301,-30.47782 1.26182,-23.683401 0.0971,-3.882525 -1.8442,-0.09706 z"/>
+        <path class="state state-route" d="m 556.50879,73.847349 -29.31306,0.582379 -20.48032,-0.09706 -17.56842,-0.388253 -20.57738,-0.776505 -1.0677,-0.09706 -0.0971,3.882525 -1.26182,23.683405 -1.55301,30.47782 -0.19413,3.88252 3.78546,0.19413 42.80484,1.16476 39.50469,-0.29119 16.40367,-0.48532 3.30014,-0.19412 -0.38825,-1.45595 -0.48531,-4.4649 -2.23246,-5.24141 -0.58238,-8.73568 -1.94126,-9.90044 -4.07665,-24.848163 -1.94126,-6.891482 -2.03833,0 z"/>
+        <path class="state state-route" d="m 558.54712,73.847349 1.94126,6.891482 4.07665,24.848159 1.94126,9.90044 0.58238,8.73568 2.23246,5.24141 0.48531,4.4649 0.38825,1.45595 -0.0971,0.29119 -3.88252,6.40616 2.52364,4.27078 4.85315,34.16622 0.19413,4.4649 4.85315,-0.29119 19.12144,-1.06769 47.75505,-3.97959 4.7561,-0.48532 0,-0.48531 -1.35889,-7.47386 -5.92085,-3.00896 -4.65903,-4.85315 -7.37679,-4.46491 -2.32952,-0.19412 -3.59133,-2.71777 0.97063,-13.39471 -3.39721,-3.10602 1.16476,-5.43554 6.21204,-5.62966 -1.0677,-11.64757 2.23245,-2.52364 0,0 7.57093,-7.95918 8.63861,-11.065195 3.30015,-2.329514 5.82379,-2.814831 6.11497,-4.561967 -4.07665,0.776505 -2.42658,-1.844199 -9.31806,1.261821 -1.45594,-1.747136 -8.34743,3.397209 -6.69736,-2.814831 -1.84419,-2.232452 -5.33848,0.388253 -3.59133,-1.844199 1.16476,-1.358884 -4.56197,-1.455947 -4.07665,0 -6.50323,2.814831 -1.26182,-1.941263 -10.28869,-1.455947 -3.49427,-8.73568 -0.38826,-2.620705 -4.4649,-1.26182 0.38825,7.47386 -11.8417,0.873568 -14.65653,0.582379 -0.97063,0.09706 z"/>
+        <path class="state state-route" d="m 705.79187,134.80299 -2.42658,3.00896 -1.45594,4.36784 0.67944,2.42657 3.20308,-9.80337 z m -55.71423,-22.80983 1.45595,-2.03833 -1.0677,0.97063 -0.38825,1.0677 z m 2.23245,-3.20309 -0.48531,-0.58238 -1.0677,0.67945 1.55301,-0.0971 z m -21.15976,5.43554 -2.23245,2.52364 1.0677,11.64757 -6.21204,5.62966 -1.16476,5.43554 3.39721,3.10602 -0.97063,13.39471 3.59133,2.71777 2.32952,0.19412 7.37679,4.46491 4.65903,4.85315 5.92085,3.00896 1.35889,7.47386 0,0.48531 0,0 2.81483,3.39721 -0.77651,2.62071 0.97063,5.72672 2.9119,3.97959 5.33847,2.81483 -0.0971,0.48532 0,0 21.15976,-2.42658 7.86211,-0.97063 13.10352,-1.8442 -0.38825,-1.45595 0,-4.56197 -2.62071,-4.85315 -0.67944,-6.11498 1.26182,-6.79442 -0.67944,-5.24141 2.32952,-6.50322 -0.87357,-1.0677 0.19412,-6.01791 1.26182,-4.56197 -1.45594,-1.55301 -2.81483,0.97063 -1.55301,4.07665 -3.6884,2.13539 1.16476,-5.14434 3.30014,-4.36784 0.19413,-1.94127 0.0971,-0.0971 -4.65903,-4.65903 0,-6.60029 -5.24141,-4.27078 -7.18267,-0.48531 -7.3768,-1.94127 -15.91835,-4.85315 -3.10602,-1.74714 -0.29119,0.29119 -4.95022,-0.67944 -1.65007,0.97063 0.67944,-7.08561 -7.95917,4.07665 -9.70631,1.55301 -0.0971,-0.19412 z m 19.02437,-5.14435 -0.19412,-0.67944 -0.67944,0.29119 0.87356,0.38825 z m -3.49427,-0.67944 0.29119,-0.58238 -0.19413,-0.19413 -0.0971,0.77651 z m 7.08561,-1.65007 -0.29119,-1.35889 -0.29119,1.65008 0.58238,-0.29119 z"/>
+        <path class="state state-route" d="m 661.43403,198.18521 -0.19413,0.48531 3.6884,2.32952 1.16476,2.32951 3.88252,3.6884 -0.0971,3.10602 -2.13539,6.11498 -4.85316,3.49427 -4.36784,0.87357 -0.87357,5.04728 1.45595,0.67944 -1.45595,9.90044 -3.59133,2.23245 0.67944,3.78546 -0.87357,0.38825 0,0 -0.7765,4.27078 3.10602,8.63862 11.06519,9.31806 0.97063,4.4649 2.13539,2.23245 6.98855,-0.38825 -1.26182,6.50323 -0.48532,6.98855 4.17372,3.3972 6.60029,2.9119 3.49427,2.71777 1.94126,5.53259 -1.06769,2.03833 6.89148,5.62966 0.29119,0.0971 -0.58238,-0.58238 1.94126,-4.56196 7.47386,2.03832 1.8442,-2.13539 -1.45594,-4.27077 6.11497,-3.59134 -1.65007,-2.32951 1.45595,-3.30015 0,-0.29119 -0.38826,-0.0971 0.0971,-8.63862 2.13539,-1.55301 3.68839,-8.63862 -0.7765,-3.78546 -2.42658,-4.56196 1.35888,-5.14435 -6.79441,-47.85212 -0.97064,-1.06769 -2.52364,-5.72673 -2.03832,-2.13539 -0.87357,-5.62966 0,-0.19412 -13.10352,1.8442 -7.86211,0.97063 -21.15976,2.42658 0,0 z"/>
+
+        <path id="route-sea-stp" class="map-route-future"
+          d="M 200,92 C 250,84 320,72 380,74 C 440,78 510,110 545,130 C 565,142 580,155 597,162"
+          fill="none" stroke-width="2.5" stroke-linecap="round"/>
+        <path id="route-stp-mil" class="map-route-future"
+          d="M 597,162 C 620,165 655,172 688,178"
+          fill="none" stroke-width="2.5" stroke-linecap="round"/>
+        <path id="route-mil-chi" class="map-route-future"
+          d="M 688,178 C 690,188 691,198 692,210"
+          fill="none" stroke-width="2.5" stroke-linecap="round"/>
+
+        <g data-city="seattle">
+          <circle class="city-dot" cx="200" cy="92" r="5"/>
+          <text class="city-label" x="200" y="82">SEATTLE</text>
+        </g>
+        <g data-city="stpaul">
+          <circle class="city-dot game-city" cx="597" cy="162" r="5"/>
+          <text class="city-label" x="597" y="152">ST. PAUL</text>
+        </g>
+        <g data-city="milwaukee">
+          <circle class="city-dot game-city" cx="688" cy="178" r="5"/>
+          <text class="city-label" x="700" y="170">MILWAUKEE</text>
+        </g>
+        <g data-city="chicago">
+          <circle class="city-dot game-city" cx="692" cy="210" r="5"/>
+          <text class="city-label" x="710" y="218">CHICAGO</text>
+        </g>
+
+        <circle cx="260" cy="85" r="1.5" fill="rgba(245,240,225,0.1)"/>
+        <text x="260" y="78" font-family="'DM Mono', monospace" font-size="6" fill="rgba(245,240,225,0.08)" text-anchor="middle" letter-spacing="0.05em">Spokane</text>
+        <circle cx="345" cy="72" r="1.5" fill="rgba(245,240,225,0.1)"/>
+        <text x="345" y="65" font-family="'DM Mono', monospace" font-size="6" fill="rgba(245,240,225,0.08)" text-anchor="middle" letter-spacing="0.05em">Glacier</text>
+        <circle cx="455" cy="78" r="1.5" fill="rgba(245,240,225,0.1)"/>
+        <text x="455" y="71" font-family="'DM Mono', monospace" font-size="6" fill="rgba(245,240,225,0.08)" text-anchor="middle" letter-spacing="0.05em">Minot</text>
+        <circle cx="540" cy="118" r="1.5" fill="rgba(245,240,225,0.1)"/>
+        <text x="540" y="111" font-family="'DM Mono', monospace" font-size="6" fill="rgba(245,240,225,0.08)" text-anchor="middle" letter-spacing="0.05em">Fargo</text>
+
+        <g id="trainGroup" transform="translate(200,92)">
+          <circle id="throbRing2" r="12"/>
+          <circle class="pulse-ring" id="pulseRing" r="14"/>
+          <text id="trainEmoji" font-size="28" text-anchor="middle" dominant-baseline="central" pointer-events="none">&#x1F682;</text>
+        </g>
+      </svg>
+    </div>
+    <div class="scrapbook" id="scrapbook">
+      <div class="tape tape-tl"></div>
+      <div class="tape tape-tr"></div>
+      <div class="scrap-header">
+        <span class="scrap-city" id="scrapCity">Seattle</span>
+        <span class="scrap-date" id="scrapDate">Sat, Apr 11</span>
+      </div>
+      <div class="scrap-body visible" id="scrapBody"></div>
+    </div>
+  </aside>
+
+  <section class="timeline-panel">
+    <div class="timeline">
+
+      <div class="day-group active" data-day="0">
+        <div class="day-header"><div class="day-dot"></div><div class="day-label">Sat, April 11</div></div>
+        <div class="card card--transit">
+          <div class="card-top"><span class="card-icon">&#x1F682;</span><span class="card-title">Depart Seattle (SEA)</span></div>
+          <div class="card-meta"><span><strong>4:55 PM</strong></span><span>Empire Builder</span></div>
+          <div class="sleep-badge">&#x1F6CF;&#xFE0F; Amtrak Sleeper</div>
+        </div>
+      </div>
+
+      <div class="day-group" data-day="1">
+        <div class="day-header"><div class="day-dot"></div><div class="day-label">Sun, April 12</div></div>
+        <div class="card card--transit">
+          <div class="card-top"><span class="card-icon">&#x1F682;</span><span class="card-title">In Transit — Empire Builder</span></div>
+          <div class="card-meta"><span>37h 38m total rail to St. Paul</span></div>
+          <div class="sleep-badge">&#x1F6CF;&#xFE0F; Amtrak Sleeper</div>
+        </div>
+      </div>
+
+      <div class="day-group" data-day="2">
+        <div class="day-header"><div class="day-dot"></div><div class="day-label">Mon, April 13</div></div>
+        <div class="card card--transit">
+          <div class="card-top"><span class="card-icon">&#x1F4CD;</span><span class="card-title">Arrive St. Paul (MSP)</span></div>
+          <div class="card-meta"><span><strong>6:33 AM</strong></span><span>10h 07m buffer before game</span></div>
+          <div class="sleep-badge">&#x1F3E8; St. Paul Hotel</div>
+        </div>
+        <div class="card card--game">
+          <div class="card-top"><span class="card-icon">&#x26BE;</span><span class="card-title">Twins Game — Target Field</span></div>
+          <div class="card-meta"><span><strong>4:40 PM</strong> first pitch</span></div>
+          <div class="matchup">BOS <span class="at">@</span> MIN</div>
+        </div>
+      </div>
+
+      <div class="day-group" data-day="3">
+        <div class="day-header"><div class="day-dot"></div><div class="day-label">Tue, April 14</div></div>
+        <div class="card card--transit">
+          <div class="card-top"><span class="card-icon">&#x1F682;</span><span class="card-title">St. Paul &#x2192; Chicago</span></div>
+          <div class="card-meta">
+            <span><strong>6:50 AM</strong> depart</span>
+            <span><strong>2:45 PM</strong> arrive Union Station</span>
+            <span>7h 55m rail &middot; Empire Builder</span>
+          </div>
+        </div>
+        <div class="card card--game">
+          <div class="card-top"><span class="card-icon">&#x26BE;</span><span class="card-title">Cubs Game — Wrigley Field</span></div>
+          <div class="card-meta"><span><strong>5:40 PM</strong> first pitch</span><span>2h 55m buffer</span></div>
+          <div class="matchup">NYM <span class="at">@</span> CHC</div>
+          <div class="sleep-badge">&#x1F3E8; Chicago Hotel</div>
+        </div>
+      </div>
+
+      <div class="day-group" data-day="4">
+        <div class="day-header"><div class="day-dot"></div><div class="day-label">Wed, April 15</div></div>
+        <div class="card card--game">
+          <div class="card-top"><span class="card-icon">&#x26BE;</span><span class="card-title">White Sox Game — Guaranteed Rate Field</span></div>
+          <div class="card-meta"><span><strong>4:40 PM</strong> first pitch</span><span>Arrive at stadium by 12:40 PM</span></div>
+          <div class="matchup">TBR <span class="at">@</span> CWS</div>
+          <div class="sleep-badge">&#x1F3E8; Chicago Hotel</div>
+        </div>
+      </div>
+
+      <div class="day-group" data-day="5">
+        <div class="day-header"><div class="day-dot"></div><div class="day-label">Thu, April 16</div></div>
+        <div class="card card--transit">
+          <div class="card-top"><span class="card-icon">&#x1F682;</span><span class="card-title">Chicago &#x2192; Milwaukee</span></div>
+          <div class="card-meta">
+            <span><strong>6:25 AM</strong> depart</span><span><strong>7:54 AM</strong> arrive</span>
+            <span>1h 29m rail &middot; Hiawatha</span>
+          </div>
+        </div>
+        <div class="card card--game">
+          <div class="card-top"><span class="card-icon">&#x26BE;</span><span class="card-title">Brewers Game — American Family Field</span></div>
+          <div class="card-meta"><span><strong>4:40 PM</strong> first pitch</span><span>8h 46m buffer in Milwaukee</span></div>
+          <div class="matchup">TOR <span class="at">@</span> MIL</div>
+          <div class="sleep-badge">&#x1F3E8; Milwaukee Hotel</div>
+        </div>
+      </div>
+
+      <div class="day-group" data-day="6">
+        <div class="day-header"><div class="day-dot"></div><div class="day-label">Fri, April 17</div></div>
+        <div class="card card--transit">
+          <div class="card-top"><span class="card-icon">&#x1F682;</span><span class="card-title">Depart Milwaukee — Empire Builder #7</span></div>
+          <div class="card-meta"><span><strong>1:52 PM</strong> depart</span><span>16h 32m post-game buffer</span></div>
+          <div class="sleep-badge">&#x1F6CF;&#xFE0F; Amtrak Sleeper</div>
+        </div>
+      </div>
+
+      <div class="day-group" data-day="7">
+        <div class="day-header"><div class="day-dot"></div><div class="day-label">Sat, April 18</div></div>
+        <div class="card card--transit">
+          <div class="card-top"><span class="card-icon">&#x1F682;</span><span class="card-title">In Transit — Empire Builder</span></div>
+          <div class="card-meta"><span>Rolling through Montana &amp; the Rockies</span></div>
+          <div class="sleep-badge">&#x1F6CF;&#xFE0F; Amtrak Sleeper</div>
+        </div>
+      </div>
+
+      <div class="day-group" data-day="8">
+        <div class="day-header"><div class="day-dot"></div><div class="day-label">Sun, April 19</div></div>
+        <div class="card card--transit">
+          <div class="card-top"><span class="card-icon">&#x1F3E0;</span><span class="card-title">Arrive Seattle (SEA)</span></div>
+          <div class="card-meta"><span><strong>11:29 AM</strong></span><span>Home sweet home</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<script>
+var LIVE = false;
+
+var days = [
+  // 0  Sat Apr 11 — Depart Seattle
+  { city: 'seattle', name: 'Seattle',    date: 'Sat, Apr 11',  cx: 200, cy: 92,  game: false, legs: [],                              reverse: false, throb: false, doneLegs: [],                                          after: '2026-04-11T00:00' },
+  // 1  Sun Apr 12 — In Transit
+  { city: 'seattle', name: 'In Transit', date: 'Sun, Apr 12',  cx: 200, cy: 92,  game: false, legs: ['route-sea-stp'],                reverse: false, throb: false, doneLegs: [],                                          after: '2026-04-11T16:55' },
+  // 2  Mon Apr 13 — Arrive St. Paul / Twins
+  { city: 'stpaul',  name: 'St. Paul',   date: 'Mon, Apr 13',  cx: 597, cy: 162, game: true,  legs: [],                              reverse: false, throb: true,  doneLegs: ['route-sea-stp'],                           after: '2026-04-13T06:33' },
+  // 3  Tue Apr 14 — St. Paul → Chicago / Cubs
+  { city: 'chicago', name: 'Chicago',    date: 'Tue, Apr 14',  cx: 692, cy: 210, game: true,  legs: ['route-stp-mil'], reverse: false, throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: '2026-04-14T14:45' },
+  // 4  Wed Apr 15 — White Sox
+  { city: 'chicago', name: 'Chicago',    date: 'Wed, Apr 15',  cx: 692, cy: 210, game: true,  legs: [],                              reverse: false, throb: true,  doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: '2026-04-15T12:40' },
+  // 5  Thu Apr 16 — Chicago → Milwaukee / Brewers
+  { city: 'milwaukee', name: 'Milwaukee', date: 'Thu, Apr 16', cx: 688, cy: 178, game: true,  legs: ['route-mil-chi'],                reverse: true,  throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: '2026-04-16T07:54' },
+  // 6  Fri Apr 17 — Depart Milwaukee
+  { city: 'milwaukee', name: 'Milwaukee', date: 'Fri, Apr 17', cx: 688, cy: 178, game: false, legs: ['route-stp-mil','route-sea-stp'], reverse: true,  throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: '2026-04-17T13:52' },
+  // 7  Sat Apr 18 — In Transit
+  { city: 'milwaukee', name: 'In Transit', date: 'Sat, Apr 18', cx: 688, cy: 178, game: false, legs: ['route-sea-stp'],               reverse: true,  throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: '2026-04-18T00:00' },
+  // 8  Sun Apr 19 — Home
+  { city: 'seattle', name: 'Home!',      date: 'Sun, Apr 19',  cx: 200, cy: 92,  game: false, legs: [],                              reverse: false, throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: '2026-04-19T11:29' },
+];
+
+var dayDetails = [
+  // Day 0 — Seattle departure
+  '<div class="clipping"><div class="clipping-label">King Street Station</div>'
+  + '<p>Beautifully restored Beaux-Arts station in Pioneer Square. Arrive 30 min early to soak in the ornate ceiling. The <a href="https://www.amtrak.com/empire-builder-train" target="_blank">Empire Builder</a> is Amtrak\'s flagship northern route\u2014named after railroad baron James J. Hill.</p></div>'
+  + '<div class="clipping"><div class="clipping-label">Before You Board</div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\u2615</span><span><a href="https://caffeumbria.com/" target="_blank">Caffè Umbria</a> (Pioneer Square)\u2014Italian-style espresso in Pioneer Square, 5-min walk from the station.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udf31</span><span><a href="https://chuminhtofu.com/" target="_blank">Chu Minh Tofu</a> in the ID\u2014vegan Vietnamese, massive portions. 10-min walk. Get the lemongrass tofu.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udfae</span><span><a href="https://www.add-a-ball.com/" target="_blank">Add-a-Ball</a> in Fremont has vintage pinball if you have time earlier in the day.</span></div></div>'
+  + '<div class="scrap-ornament">\u2022 \u2022 \u2022</div>'
+  + '<div class="clipping"><div class="clipping-label">Tips</div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udf04</span><span>Sit on the left (south) side for sunset views over Puget Sound as you pull out.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udf7d\ufe0f</span><span>Dining car has limited vegan options\u2014bring snacks from the station. The lounge car stocks hummus wraps and fruit.</span></div></div>',
+
+  // Day 1 — In Transit
+  '<div class="clipping"><div class="clipping-label">Scenic Highlights</div>'
+  + '<p>Early morning: Glacier National Park\'s southern edge. The train hugs the Middle Fork of the Flathead River through dramatic scenery. Keep your eyes peeled for mountain goats.</p>'
+  + '<p>Afternoon: the Hi-Line across Montana\'s northern plains. Endless sky, wheat fields, occasional pronghorn.</p></div>'
+  + '<div class="scrap-ornament">\u2022 \u2022 \u2022</div>'
+  + '<div class="clipping"><div class="clipping-label">Tips</div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83d\udcf7</span><span>Glacier area is between Whitefish and East Glacier (roughly 7\u201310 AM). Set an alarm.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83d\udcd6</span><span>National Park Service volunteers board at West Glacier to narrate. Free and worth it.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udfae</span><span>Bring a Steam Deck or Switch\u2014long stretches of Montana plains are beautiful but repetitive. Perfect gaming hours.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udf31</span><span>Ask the dining car attendant about the vegan option at dinner\u2014it varies but usually a veggie pasta or rice bowl.</span></div></div>',
+
+  // Day 2 — St. Paul / Twins
+  '<div class="clipping"><div class="clipping-label"><a href="https://www.mlb.com/twins/ballpark" target="_blank">Target Field</a></div>'
+  + '<p>Opened 2010. Open-air ballpark in the Warehouse District. Left-field gate overlooks the downtown skyline\u2014one of the best views in baseball. <a href="https://www.mlb.com/twins/schedule" target="_blank">Twins schedule</a>.</p></div>'
+  + '<div class="clipping"><div class="clipping-label">Nearby</div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\u2615</span><span><a href="https://www.spyhousecoffee.com/" target="_blank">Spyhouse Coffee</a> (N Washington Ave)\u2014excellent pour-over, 8-min walk from the station.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udf31</span><span><a href="https://www.jselbys.com/" target="_blank">J. Selby\'s</a> in St. Paul\u2014all-vegan comfort food. The Dirty Secret burger and buffalo mac are unreal.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udfae</span><span><a href="https://www.updownarcadebar.com/" target="_blank">Up-Down</a> on Lyndale Ave\u2014retro arcade bar. $0.25 games, good beer list. <a href="https://www.google.com/maps/dir/?api=1&origin=Target+Field+Minneapolis&destination=Up-Down+Minneapolis&travelmode=transit" target="_blank">15 min by bus</a> from Target Field.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udfb6</span><span><a href="https://first-avenue.com/" target="_blank">First Avenue</a> (the Prince venue)\u2014<a href="https://www.google.com/maps/dir/?api=1&origin=Target+Field+Minneapolis&destination=First+Avenue+Minneapolis&travelmode=walking" target="_blank">12-min walk</a> south on 1st Ave.</span></div></div>'
+  + '<div class="scrap-ornament">\u2022 \u2022 \u2022</div>'
+  + '<div class="clipping"><div class="clipping-label">Getting There</div>'
+  + '<p><a href="https://www.google.com/maps/dir/?api=1&origin=Union+Depot+St+Paul&destination=Target+Field+Minneapolis&travelmode=transit" target="_blank">Union Depot \u2192 Target Field</a>\u2014Green Line light rail, ~25 min. Runs every 10 min.</p></div>'
+  + '<div class="clipping"><div class="clipping-label">Stadium Tips</div>'
+  + '<p>Sections 120\u2013126 have the best sight lines. The <a href="https://www.mlb.com/twins/ballpark/food" target="_blank">food options</a> include a solid veggie burger at the Herbivorous Butcher stand\u2014vegan meats from the Minneapolis institution.</p></div>',
+
+  // Day 3 — Chicago / Cubs
+  '<div class="clipping"><div class="clipping-label"><a href="https://www.mlb.com/cubs/ballpark" target="_blank">Wrigley Field</a></div>'
+  + '<p>Built 1914. The Friendly Confines. Second-oldest ballpark in MLB (after Fenway). The ivy on the outfield walls was planted in 1937. Upper deck behind home plate is the sweet spot for first-timers. <a href="https://www.mlb.com/cubs/schedule" target="_blank">Cubs schedule</a>.</p></div>'
+  + '<div class="clipping"><div class="clipping-label">Wrigleyville &amp; Beyond</div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\u2615</span><span><a href="https://www.darkmattercoffee.com/" target="_blank">Dark Matter Coffee</a> (Osmium, Western Ave)\u2014best beans in Chicago.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udf31</span><span><a href="https://www.handlebarchicago.com/" target="_blank">Handlebar</a> in Wicker Park\u2014vegan-friendly with great bowls and tacos..</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udfae</span><span><a href="https://www.emporiumchicago.com/" target="_blank">Emporium Arcade Bar</a> in Wicker Park\u2014huge space, classic cabinets, good craft beer. Take the Blue Line.</span></div></div>'
+  + '<div class="scrap-ornament">\u2022 \u2022 \u2022</div>'
+  + '<div class="clipping"><div class="clipping-label">Getting There</div>'
+  + '<p><a href="https://www.google.com/maps/dir/?api=1&origin=Chicago+Union+Station&destination=Wrigley+Field+Chicago&travelmode=transit" target="_blank">Union Station \u2192 Wrigley Field</a>\u2014Red Line north to Addison. 35 min, every 5\u20138 min. Pops out right at the ballpark.</p></div>',
+
+  // Day 4 — Chicago / White Sox
+  '<div class="clipping"><div class="clipping-label"><a href="https://www.mlb.com/whitesox/ballpark" target="_blank">Guaranteed Rate Field</a></div>'
+  + '<p>Built 1991. Blue-collar park, less tourist traffic than Wrigley. Better banter, shorter lines. Upper deck has a clear skyline view south. <a href="https://www.mlb.com/whitesox/schedule" target="_blank">White Sox schedule</a>.</p></div>'
+  + '<div class="clipping"><div class="clipping-label">Bridgeport &amp; Chinatown</div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udf31</span><span>Chinatown is one Red Line stop north (Cermak-Chinatown). <a href="https://www.minghincuisine.com/" target="_blank">Ming Hin</a> for vegetable dim sum\u2014ask for the vegan menu.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\u2615</span><span><a href="https://bridgeportcoffee.net/" target="_blank">Bridgeport Coffee</a> on 31st St\u2014neighborhood staple, good espresso, chill vibe.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udfae</span><span><a href="https://www.gallopingghostarcade.com/" target="_blank">Galloping Ghost Arcade</a> in Brookfield\u2014largest arcade in the US. 900+ machines, $20 all-day pass. <a href="https://www.google.com/maps/dir/?api=1&origin=Chicago+Union+Station&destination=Galloping+Ghost+Arcade+Brookfield+IL&travelmode=transit" target="_blank">~1h by bus</a>\u2014take the Blue Line to CTA 304 bus. Worth a morning trip if you\'re serious.</span></div></div>'
+  + '<div class="scrap-ornament">\u2022 \u2022 \u2022</div>'
+  + '<div class="clipping"><div class="clipping-label">Getting There</div>'
+  + '<p><a href="https://www.google.com/maps/dir/?api=1&origin=Chicago+Union+Station&destination=Guaranteed+Rate+Field+Chicago&travelmode=transit" target="_blank">Union Station \u2192 Guaranteed Rate</a>\u2014Red Line south to Sox-35th. 20 min, then a 5-min walk through the lots.</p></div>',
+
+  // Day 5 — Milwaukee / Brewers
+  '<div class="clipping"><div class="clipping-label"><a href="https://www.mlb.com/brewers/ballpark" target="_blank">American Family Field</a></div>'
+  + '<p>Only MLB park with a fan-shaped retractable roof. Home of the Famous Racing Sausages\u2014Bratwurst, Polish, Italian, Hot Dog, and Chorizo race the warning track in the 6th inning. <a href="https://www.mlb.com/brewers/schedule" target="_blank">Brewers schedule</a>.</p></div>'
+  + '<div class="clipping"><div class="clipping-label">Milwaukee</div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\u2615</span><span><a href="https://www.likewisemke.com/" target="_blank">Likewise Coffee</a> on E. Erie St.\u2014specialty coffee near the Third Ward.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udf31</span><span><a href="https://www.strangetownmke.com/" target="_blank">Strange Town</a> in Bay View\u2014all-vegan with incredible fried chicken sandwich and loaded nachos.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udfae</span><span><a href="https://updownarcadebar.com/milwaukee/" target="_blank">Up-Down MKE</a> on Brady St\u2014same retro arcade concept as Minneapolis. $0.25 games, solid tap list.</span></div></div>'
+  + '<div class="scrap-ornament">\u2022 \u2022 \u2022</div>'
+  + '<div class="clipping"><div class="clipping-label">Getting There</div>'
+  + '<p><a href="https://www.google.com/maps/dir/?api=1&origin=Milwaukee+Intermodal+Station&destination=American+Family+Field+Milwaukee&travelmode=transit" target="_blank">Intermodal Station \u2192 American Family Field</a>\u2014MCTS Bus Route 90 (Brewers Line) runs on game days from downtown. ~20 min. Check <a href="https://www.ridemcts.com/" target="_blank">MCTS</a> for schedule.</p></div>'
+  + '<div class="clipping"><div class="clipping-label">Tailgating</div>'
+  + '<p>Brewers fans tailgate harder than any other MLB fanbase. Lots open 2.5 hrs before first pitch. Walk through and people will share. Bring your own vegan brats\u2014<a href="https://www.fieldroast.com/" target="_blank">Field Roast</a> makes good ones.</p></div>',
+
+  // Day 6 — Morning in Milwaukee
+  '<div class="clipping"><div class="clipping-label">Morning in Milwaukee</div>'
+  + '<p>Train doesn\'t leave until 1:52 PM. Use the morning to explore.</p></div>'
+  + '<div class="clipping"><div class="clipping-label">Last-Morning Picks</div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\u2615</span><span><a href="https://colectivo.com/" target="_blank">Colectivo Coffee</a> on the lakefront\u2014huge space in an old water treatment plant. Great oat lattes.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udf31</span><span><a href="https://www.beansandbarley.com/" target="_blank">Beans & Barley</a> on N. Farwell\u2014Milwaukee vegetarian institution since 1972. Vegan-friendly brunch.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udfa8</span><span><a href="https://mam.org/" target="_blank">Milwaukee Art Museum</a> opens at 10 AM. The Calatrava-designed Burke Brise Soleil is worth seeing.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83d\udeb6</span><span>Walk the Riverwalk if weather\'s good\u2014connects Third Ward to downtown along the river.</span></div></div>',
+
+  // Day 7 — In Transit (westbound)
+  '<div class="clipping"><div class="clipping-label">Westbound Highlights</div>'
+  + '<p>Retracing the route in reverse. Morning sun backlights the Montana plains. Afternoon light hits Glacier\'s peaks from the opposite angle.</p></div>'
+  + '<div class="scrap-ornament">\u2022 \u2022 \u2022</div>'
+  + '<div class="clipping"><div class="clipping-label">Tips</div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udf04</span><span>Sit on the right (north) side for the best Glacier views in afternoon light.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udfae</span><span>Last full day on the train. Time to finish that game. Cell service gets patchy through Montana\u2014download everything beforehand.</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udf31</span><span>Last dining car dinner. Ask if the chef can do a vegan plate\u2014they\'ll usually put together roasted vegetables and rice if you ask early.</span></div></div>',
+
+  // Day 8 — Home
+  '<div class="clipping"><div class="clipping-label">Welcome Home</div>'
+  + '<p>4 ballparks. 3 cities. ~4,400 miles of rail. You never left the ground.</p></div>'
+  + '<div class="scrap-ornament">\u2022 \u2022 \u2022</div>'
+  + '<div class="clipping"><div class="clipping-label">Trip Stats</div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\u26be</span><span>Games: <a href="https://www.mlb.com/twins" target="_blank">Twins</a>, <a href="https://www.mlb.com/cubs" target="_blank">Cubs</a>, <a href="https://www.mlb.com/whitesox" target="_blank">White Sox</a>, <a href="https://www.mlb.com/brewers" target="_blank">Brewers</a></span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83d\ude82</span><span>Trains: <a href="https://www.amtrak.com/empire-builder-train" target="_blank">Empire Builder</a> (x3), <a href="https://www.amtrak.com/hiawatha-train" target="_blank">Hiawatha</a> (x1)</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83d\udecf\ufe0f</span><span>Nights on a train: 4 of 8</span></div>'
+  + '<div class="clipping-tip"><span class="clipping-tip-icon">\ud83c\udf0d</span><span>States crossed: WA, ID, MT, ND, MN, WI, IL</span></div></div>',
+];
+
+var allLegs = ['route-sea-stp', 'route-stp-mil', 'route-mil-chi'];
+var dayGroups = document.querySelectorAll('.day-group[data-day]');
+var activeDay = 0;
+
+function activateDay(dayIdx, emoji) {
+  activeDay = dayIdx;
+  var day = days[dayIdx];
+
+  // timeline styling
+  dayGroups.forEach(function(g) {
+    g.classList.remove('active', 'past');
+    if (parseInt(g.dataset.day) < dayIdx) g.classList.add('past');
+  });
+  var target = document.querySelector('.day-group[data-day="' + dayIdx + '"]');
+  if (target) target.classList.add('active');
+
+  // map: done legs
+  var doneLegIds = new Set(day.doneLegs);
+  allLegs.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.classList.toggle('map-route-done', doneLegIds.has(id));
+    el.classList.toggle('map-route-future', !doneLegIds.has(id));
+    el.style.stroke = '';
+    el.style.strokeDasharray = '';
+    el.style.opacity = '';
+  });
+
+  // map: city dots
+  var visitedCities = new Set();
+  for (var i = 0; i <= dayIdx; i++) visitedCities.add(days[i].city);
+  document.querySelectorAll('[data-city]').forEach(function(g) {
+    var c = g.dataset.city;
+    var dot = g.querySelector('.city-dot');
+    var label = g.querySelector('.city-label');
+    dot.classList.remove('active', 'visited');
+    label.classList.remove('active');
+    if (c === day.city) { dot.classList.add('active'); label.classList.add('active'); }
+    else if (visitedCities.has(c)) { dot.classList.add('visited'); }
+  });
+
+  // map: marker position + emoji
+  var faceEast = dayIdx <= 3;
+  var g = document.getElementById('trainGroup');
+  g.setAttribute('transform', 'translate(' + day.cx + ',' + day.cy + ')' + (faceEast ? ' scale(-1,1)' : ''));
+  document.getElementById('trainEmoji').textContent = emoji;
+
+  // map: route glow animation
+  document.getElementById('routeGlowLayer').innerHTML = '';
+  var pulseRing = document.getElementById('pulseRing');
+  var throbRing2 = document.getElementById('throbRing2');
+  pulseRing.classList.toggle('throb', day.throb);
+  throbRing2.classList.toggle('throb', day.throb);
+
+  if (day.legs.length) {
+    var layer = document.getElementById('routeGlowLayer');
+    var legData = day.legs.map(function(id) {
+      var src = document.getElementById(id);
+      if (!src) return null;
+      var len = Math.round(src.getTotalLength());
+      var dash = Math.round(len * 0.2);
+      var cycle = dash + len;
+      var dur = parseFloat((2 + len / 200).toFixed(1));
+      return { id: id, src: src, len: len, dash: dash, cycle: cycle, dur: dur };
+    }).filter(Boolean);
+    var totalDur = legData.reduce(function(s, d) { return s + d.dur; }, 0);
+    var delay = 0;
+    legData.forEach(function(d) {
+      var clone = d.src.cloneNode(true);
+      clone.removeAttribute('id');
+      clone.setAttribute('class', 'map-route-glow');
+      clone.style.strokeDasharray = d.dash + ' ' + d.len;
+      var name = 'glow' + d.id.replace(/[^a-zA-Z0-9]/g, '');
+      var from = day.reverse ? 0 : d.cycle;
+      var to = day.reverse ? d.cycle : 0;
+      var hideTo = day.reverse ? (-d.cycle) : (d.cycle * 2);
+      var pct1 = ((d.dur / totalDur) * 100).toFixed(1);
+      var style = document.createElement('style');
+      style.textContent = '@keyframes ' + name
+        + '{0%{stroke-dashoffset:' + from + ';opacity:0.45}'
+        + pct1 + '%{stroke-dashoffset:' + to + ';opacity:0.45}'
+        + (parseFloat(pct1) + 0.1) + '%{stroke-dashoffset:' + from + ';opacity:0}'
+        + '100%{stroke-dashoffset:' + from + ';opacity:0}}';
+      layer.appendChild(style);
+      clone.style.animation = name + ' ' + totalDur + 's linear ' + delay + 's infinite';
+      layer.appendChild(clone);
+      delay += d.dur;
+    });
+  }
+
+  // scrapbook
+  var body = document.getElementById('scrapBody');
+  document.getElementById('scrapCity').textContent = day.name;
+  document.getElementById('scrapDate').textContent = day.date;
+  var badge = document.querySelector('.scrap-badge');
+  if (badge) badge.remove();
+  if (day.game) {
+    var b = document.createElement('span');
+    b.className = 'scrap-badge';
+    b.textContent = '\u26be game day';
+    document.querySelector('.scrap-header').appendChild(b);
+  }
+  body.classList.remove('visible');
+  setTimeout(function() {
+    body.innerHTML = dayDetails[dayIdx] || '';
+    document.getElementById('scrapbook').scrollTop = 0;
+    void body.offsetHeight;
+    body.classList.add('visible');
+  }, 150);
+}
+
+document.querySelectorAll('.card').forEach(function(card) {
+  card.addEventListener('click', function() {
+    var group = card.closest('.day-group[data-day]');
+    if (!group) return;
+    var dayIdx = parseInt(group.dataset.day);
+    if (isNaN(dayIdx)) return;
+    var iconEl = card.querySelector('.card-icon');
+    var emoji = iconEl ? iconEl.textContent.trim() : '\ud83d\ude82';
+    document.querySelectorAll('.card').forEach(function(c) { c.classList.remove('card--active'); });
+    card.classList.add('card--active');
+    activateDay(dayIdx, emoji);
+  });
+});
+
+var revealObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+dayGroups.forEach(function(g, i) {
+  g.style.transitionDelay = (i * 0.04) + 's';
+  revealObserver.observe(g);
+});
+
+function getCardEmoji(dayIdx) {
+  var group = document.querySelector('.day-group[data-day="' + dayIdx + '"]');
+  if (!group) return '\ud83d\ude82';
+  var lastCard = group.querySelector('.card:last-of-type');
+  var iconEl = lastCard ? lastCard.querySelector('.card-icon') : null;
+  return iconEl ? iconEl.textContent.trim() : '\ud83d\ude82';
+}
+
+if (LIVE) {
+  var now = new Date();
+  var liveDay = 0;
+  for (var i = days.length - 1; i >= 0; i--) {
+    if (now >= new Date(days[i].after + ':00-07:00')) { liveDay = i; break; }
+  }
+  var target = document.querySelector('.day-group[data-day="' + liveDay + '"]');
+  if (target) setTimeout(function() { target.scrollIntoView({ behavior: 'smooth' }); }, 300);
+}
+
+// init day 0
+activeDay = -1;
+activateDay(0, getCardEmoji(0));
+
+var statsBar = document.getElementById('statsBar');
+var hero = document.querySelector('.hero');
+var heroObserver = new IntersectionObserver(function(entries) {
+  statsBar.classList.toggle('scrolled', !entries[0].isIntersecting);
+}, { threshold: 0 });
+heroObserver.observe(hero);
+</script>
+
+</body>
+</html>
