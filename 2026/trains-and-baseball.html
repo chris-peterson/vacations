@@ -688,15 +688,15 @@ var days = [
   // 2  Mon Apr 13 — Arrive St. Paul / Twins
   { city: 'stpaul',  name: 'St. Paul',   date: 'Mon, Apr 13',  cx: 597, cy: 162, game: true,  legs: [],                              reverse: false, throb: true,  doneLegs: ['route-sea-stp'],                           after: '2026-04-13T06:33' },
   // 3  Tue Apr 14 — St. Paul → Chicago / Cubs
-  { city: 'chicago', name: 'Chicago',    date: 'Tue, Apr 14',  cx: 692, cy: 210, game: true,  legs: ['route-stp-mil'], reverse: false, throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: '2026-04-14T14:45' },
+  { city: 'chicago', name: 'Chicago',    date: 'Tue, Apr 14',  cx: 692, cy: 210, game: true,  legs: ['route-stp-mil','route-mil-chi'], reverse: false, throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: '2026-04-14T14:45' },
   // 4  Wed Apr 15 — White Sox
   { city: 'chicago', name: 'Chicago',    date: 'Wed, Apr 15',  cx: 692, cy: 210, game: true,  legs: [],                              reverse: false, throb: true,  doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: '2026-04-15T12:40' },
   // 5  Thu Apr 16 — Chicago → Milwaukee / Brewers
   { city: 'milwaukee', name: 'Milwaukee', date: 'Thu, Apr 16', cx: 688, cy: 178, game: true,  legs: ['route-mil-chi'],                reverse: true,  throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: '2026-04-16T07:54' },
   // 6  Fri Apr 17 — Depart Milwaukee
-  { city: 'milwaukee', name: 'Milwaukee', date: 'Fri, Apr 17', cx: 688, cy: 178, game: false, legs: ['route-stp-mil','route-sea-stp'], reverse: true,  throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: '2026-04-17T13:52' },
+  { city: 'milwaukee', name: 'Milwaukee', date: 'Fri, Apr 17', cx: 688, cy: 178, game: false, legs: ['route-stp-mil'],                reverse: true,  throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: '2026-04-17T13:52' },
   // 7  Sat Apr 18 — In Transit
-  { city: 'milwaukee', name: 'In Transit', date: 'Sat, Apr 18', cx: 688, cy: 178, game: false, legs: ['route-sea-stp'],               reverse: true,  throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: '2026-04-18T00:00' },
+  { city: 'stpaul',    name: 'In Transit', date: 'Sat, Apr 18', cx: 597, cy: 162, game: false, legs: ['route-sea-stp'],               reverse: true,  throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: '2026-04-18T00:00' },
   // 8  Sun Apr 19 — Home
   { city: 'seattle', name: 'Home!',      date: 'Sun, Apr 19',  cx: 200, cy: 92,  game: false, legs: [],                              reverse: false, throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: '2026-04-19T11:29' },
 ];
@@ -807,7 +807,8 @@ var allLegs = ['route-sea-stp', 'route-stp-mil', 'route-mil-chi'];
 var dayGroups = document.querySelectorAll('.day-group[data-day]');
 var activeDay = 0;
 
-function activateDay(dayIdx, emoji) {
+function activateDay(dayIdx, emoji, opts) {
+  opts = opts || {};
   activeDay = dayIdx;
   var day = days[dayIdx];
 
@@ -854,10 +855,11 @@ function activateDay(dayIdx, emoji) {
   document.getElementById('routeGlowLayer').innerHTML = '';
   var pulseRing = document.getElementById('pulseRing');
   var throbRing2 = document.getElementById('throbRing2');
-  pulseRing.classList.toggle('throb', day.throb);
-  throbRing2.classList.toggle('throb', day.throb);
+  var showLegs = !opts.skipLegs;
+  pulseRing.classList.toggle('throb', day.throb || opts.skipLegs);
+  throbRing2.classList.toggle('throb', day.throb || opts.skipLegs);
 
-  if (day.legs.length) {
+  if (showLegs && day.legs.length) {
     var layer = document.getElementById('routeGlowLayer');
     var legData = day.legs.map(function(id) {
       var src = document.getElementById(id);
@@ -881,11 +883,18 @@ function activateDay(dayIdx, emoji) {
       var hideTo = day.reverse ? (-d.cycle) : (d.cycle * 2);
       var pct1 = ((d.dur / totalDur) * 100).toFixed(1);
       var style = document.createElement('style');
-      style.textContent = '@keyframes ' + name
-        + '{0%{stroke-dashoffset:' + from + ';opacity:0.45}'
-        + pct1 + '%{stroke-dashoffset:' + to + ';opacity:0.45}'
-        + (parseFloat(pct1) + 0.1) + '%{stroke-dashoffset:' + from + ';opacity:0}'
-        + '100%{stroke-dashoffset:' + from + ';opacity:0}}';
+      if (legData.length === 1) {
+        style.textContent = '@keyframes ' + name
+          + '{0%{stroke-dashoffset:' + from + '}'
+          + '100%{stroke-dashoffset:' + to + '}}';
+        clone.style.opacity = '0.45';
+      } else {
+        style.textContent = '@keyframes ' + name
+          + '{0%{stroke-dashoffset:' + from + ';opacity:0.45}'
+          + pct1 + '%{stroke-dashoffset:' + to + ';opacity:0.45}'
+          + (parseFloat(pct1) + 0.1) + '%{stroke-dashoffset:' + from + ';opacity:0}'
+          + '100%{stroke-dashoffset:' + from + ';opacity:0}}';
+      }
       layer.appendChild(style);
       clone.style.animation = name + ' ' + totalDur + 's linear ' + delay + 's infinite';
       layer.appendChild(clone);
@@ -924,7 +933,7 @@ document.querySelectorAll('.card').forEach(function(card) {
     var emoji = iconEl ? iconEl.textContent.trim() : '\ud83d\ude82';
     document.querySelectorAll('.card').forEach(function(c) { c.classList.remove('card--active'); });
     card.classList.add('card--active');
-    activateDay(dayIdx, emoji);
+    activateDay(dayIdx, emoji, { skipLegs: card.classList.contains('card--game') });
   });
 });
 
