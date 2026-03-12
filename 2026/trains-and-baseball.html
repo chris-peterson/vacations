@@ -458,15 +458,72 @@
     font-size: 0.7rem; color: var(--dirt); opacity: 0.7;
   }
 
+  /* Mobile inline scrapbook (hidden on desktop) */
+  .scrapbook-inline {
+    display: none;
+  }
+
   @media (max-width: 900px) {
     .main-layout { flex-direction: column; padding: 1rem; gap: 1rem; }
     .map-panel { position: static; flex: none; max-height: none; }
+    .map-panel .scrapbook { display: none; }
     .timeline { padding-left: 0.5rem; }
+
+    .scrapbook-inline {
+      display: none;
+      background:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.06'/%3E%3C/svg%3E"),
+        linear-gradient(168deg, #e8dcc8 0%, #ddd0b8 40%, #d8caac 100%);
+      background-size: 150px, 100%;
+      border-radius: 6px;
+      border: 1px solid rgba(180,160,120,0.3);
+      padding: 1rem 1rem 0.8rem;
+      margin: 0 0 1.8rem 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .scrapbook-inline::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 45% 40% at 85% 20%, rgba(160,120,60,0.1), transparent),
+        radial-gradient(ellipse 30% 35% at 15% 75%, rgba(140,100,40,0.07), transparent);
+    }
+    .scrapbook-inline.active {
+      display: block;
+    }
+    .scrapbook-inline .scrap-header {
+      display: flex; align-items: baseline; gap: 0.6rem;
+      margin-bottom: 0.7rem; padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--paper-ink);
+      position: relative; z-index: 1;
+    }
+    .scrapbook-inline .scrap-header::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 1px; background: var(--paper-ink); opacity: 0.25;
+    }
+    .scrapbook-inline .scrap-city {
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem;
+      color: var(--paper-ink); letter-spacing: 0.06em; line-height: 1;
+    }
+    .scrapbook-inline .scrap-date {
+      font-family: 'DM Mono', monospace; font-size: 0.65rem;
+      color: var(--paper-muted); letter-spacing: 0.06em;
+    }
+    .scrapbook-inline .scrap-body {
+      opacity: 0; transform: translateY(6px);
+      transition: opacity 0.4s ease 0.05s, transform 0.4s ease 0.05s;
+      position: relative; z-index: 1;
+    }
+    .scrapbook-inline .scrap-body.visible {
+      opacity: 1; transform: translateY(0);
+    }
   }
   @media (max-width: 480px) {
     .hero { padding: 2.5rem 1rem 2rem; }
     .stat { padding: 0.7rem 1.2rem; }
     .card { margin-left: 28px; padding: 0.7rem 0.85rem; }
+    .scrapbook-inline { margin-left: 28px; }
   }
 </style>
 </head>
@@ -671,6 +728,14 @@
           <div class="card-top"><span class="card-icon">&#x1F3E0;</span><span class="card-title">Arrive Seattle (SEA)</span></div>
           <div class="card-meta"><span><strong>11:29 AM</strong></span><span>Home sweet home</span></div>
         </div>
+      </div>
+
+      <div class="scrapbook-inline" id="scrapbookInline">
+        <div class="scrap-header">
+          <span class="scrap-city" id="scrapCityInline"></span>
+          <span class="scrap-date" id="scrapDateInline"></span>
+        </div>
+        <div class="scrap-body" id="scrapBodyInline"></div>
       </div>
 
     </div>
@@ -902,17 +967,17 @@ function activateDay(dayIdx, emoji, opts) {
     });
   }
 
-  // scrapbook
+  // scrapbook (desktop)
   var body = document.getElementById('scrapBody');
   document.getElementById('scrapCity').textContent = day.name;
   document.getElementById('scrapDate').textContent = day.date;
-  var badge = document.querySelector('.scrap-badge');
+  var badge = document.querySelector('#scrapbook .scrap-badge');
   if (badge) badge.remove();
   if (day.game) {
     var b = document.createElement('span');
     b.className = 'scrap-badge';
     b.textContent = '\u26be game day';
-    document.querySelector('.scrap-header').appendChild(b);
+    document.querySelector('#scrapbook .scrap-header').appendChild(b);
   }
   body.classList.remove('visible');
   setTimeout(function() {
@@ -921,6 +986,36 @@ function activateDay(dayIdx, emoji, opts) {
     void body.offsetHeight;
     body.classList.add('visible');
   }, 150);
+
+  // scrapbook (mobile inline — positioned between day tiles)
+  var isMobile = window.matchMedia('(max-width: 900px)').matches;
+  var inlineScrap = document.getElementById('scrapbookInline');
+  if (isMobile && inlineScrap) {
+    var inlineBody = document.getElementById('scrapBodyInline');
+    document.getElementById('scrapCityInline').textContent = day.name;
+    document.getElementById('scrapDateInline').textContent = day.date;
+    var inlineBadge = inlineScrap.querySelector('.scrap-badge');
+    if (inlineBadge) inlineBadge.remove();
+    if (day.game) {
+      var bi = document.createElement('span');
+      bi.className = 'scrap-badge';
+      bi.textContent = '\u26be game day';
+      inlineScrap.querySelector('.scrap-header').appendChild(bi);
+    }
+    inlineBody.classList.remove('visible');
+    inlineScrap.classList.remove('active');
+    // Move the inline scrapbook right after the active day-group
+    var activeGroup = document.querySelector('.day-group[data-day="' + dayIdx + '"]');
+    if (activeGroup) {
+      activeGroup.parentNode.insertBefore(inlineScrap, activeGroup.nextSibling);
+    }
+    setTimeout(function() {
+      inlineScrap.classList.add('active');
+      inlineBody.innerHTML = dayDetails[dayIdx] || '';
+      void inlineBody.offsetHeight;
+      inlineBody.classList.add('visible');
+    }, 150);
+  }
 }
 
 document.querySelectorAll('.card').forEach(function(card) {
