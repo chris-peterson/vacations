@@ -420,6 +420,32 @@
     font-size: 0.7rem; color: var(--dirt); opacity: 0.7;
   }
 
+  .lodging-marker {
+    margin-left: 32px; margin-bottom: 0.5rem;
+    display: flex; align-items: center; gap: 0.6rem;
+    font-family: 'DM Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--dirt); opacity: 0.6;
+  }
+  .lodging-marker::before,
+  .lodging-marker::after {
+    content: ''; flex: 1; height: 1px;
+    background: rgba(212,168,71,0.15);
+  }
+  .lodging-marker-text { white-space: nowrap; }
+  .lodging-marker-address {
+    font-size: 0.55rem; letter-spacing: 0.04em;
+    text-transform: none; opacity: 0.8;
+  }
+  .lodging-marker-address a {
+    color: var(--dirt); text-decoration: underline;
+    text-decoration-color: rgba(212,168,71,0.25);
+    text-underline-offset: 2px;
+  }
+  .lodging-marker-address a:hover {
+    text-decoration-color: var(--dirt);
+  }
+
   /* Mobile inline scrapbook (hidden on desktop) */
   .scrapbook-inline {
     display: none;
@@ -652,26 +678,6 @@
       <div class="day-group" data-day="3">
         <div class="day-header"><div class="day-dot"></div><div class="day-label">Day 4</div></div>
         <div class="card card--transit">
-          <div class="card-top"><span class="card-icon">&#x1F682;</span><span class="card-title">Train to Chicago</span></div>
-          <div class="card-meta"></div>
-        </div>
-        <div class="card card--game">
-          <div class="card-top"><span class="card-icon">&#x26BE;</span><span class="card-title">Cubs Game</span></div>
-          <div class="card-meta"></div>
-        </div>
-      </div>
-
-      <div class="day-group" data-day="4">
-        <div class="day-header"><div class="day-dot"></div><div class="day-label">Day 5</div></div>
-        <div class="card card--game">
-          <div class="card-top"><span class="card-icon">&#x26BE;</span><span class="card-title">White Sox Game</span></div>
-          <div class="card-meta"></div>
-        </div>
-      </div>
-
-      <div class="day-group" data-day="5">
-        <div class="day-header"><div class="day-dot"></div><div class="day-label">Day 6</div></div>
-        <div class="card card--transit">
           <div class="card-top"><span class="card-icon">&#x1F682;</span><span class="card-title">Train to Milwaukee</span></div>
           <div class="card-meta"></div>
         </div>
@@ -681,10 +687,26 @@
         </div>
       </div>
 
+      <div class="day-group" data-day="4">
+        <div class="day-header"><div class="day-dot"></div><div class="day-label">Day 5</div></div>
+        <div class="card card--transit">
+          <div class="card-top"><span class="card-icon">&#x1F682;</span><span class="card-title">Train to Chicago</span></div>
+          <div class="card-meta"></div>
+        </div>
+      </div>
+
+      <div class="day-group" data-day="5">
+        <div class="day-header"><div class="day-dot"></div><div class="day-label">Day 6</div></div>
+        <div class="card card--game">
+          <div class="card-top"><span class="card-icon">&#x26BE;</span><span class="card-title">White Sox Game</span></div>
+          <div class="card-meta"></div>
+        </div>
+      </div>
+
       <div class="day-group" data-day="6">
         <div class="day-header"><div class="day-dot"></div><div class="day-label">Day 7</div></div>
         <div class="card card--transit">
-          <div class="card-top"><span class="card-icon">&#x1F682;</span><span class="card-title">Depart Milwaukee</span></div>
+          <div class="card-top"><span class="card-icon">&#x1F682;</span><span class="card-title">Depart Chicago</span></div>
           <div class="card-meta"></div>
         </div>
       </div>
@@ -724,10 +746,10 @@ var days = [
   { city: 'seattle',   name: 'Seattle',    date: 'Day 1', cx: 200, cy: 92,  game: false, legs: [],                              reverse: false, throb: false, doneLegs: [],                                          after: null },
   { city: 'seattle',   name: 'In Transit', date: 'Day 2', cx: 200, cy: 92,  game: false, legs: ['route-sea-stp'],                reverse: false, throb: false, doneLegs: [],                                          after: null },
   { city: 'stpaul',    name: 'St. Paul',   date: 'Day 3', cx: 597, cy: 162, game: true,  legs: [],                              reverse: false, throb: true,  doneLegs: ['route-sea-stp'],                           after: null },
-  { city: 'chicago',   name: 'Chicago',    date: 'Day 4', cx: 692, cy: 210, game: true,  legs: ['route-stp-mil','route-mil-chi'], reverse: false, throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: null },
-  { city: 'chicago',   name: 'Chicago',    date: 'Day 5', cx: 692, cy: 210, game: true,  legs: [],                              reverse: false, throb: true,  doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: null },
-  { city: 'milwaukee', name: 'Milwaukee',  date: 'Day 6', cx: 688, cy: 178, game: true,  legs: ['route-mil-chi'],                reverse: true,  throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: null },
-  { city: 'milwaukee', name: 'Milwaukee',  date: 'Day 7', cx: 688, cy: 178, game: false, legs: ['route-stp-mil'],                reverse: true,  throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: null },
+  { city: 'milwaukee', name: 'Milwaukee',  date: 'Day 4', cx: 688, cy: 178, game: true,  legs: ['route-stp-mil'],                reverse: false, throb: false, doneLegs: ['route-sea-stp','route-stp-mil'],                 after: null },
+  { city: 'chicago',   name: 'Chicago',    date: 'Day 5', cx: 692, cy: 210, game: false, legs: ['route-mil-chi'],                reverse: false, throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: null },
+  { city: 'chicago',   name: 'Chicago',    date: 'Day 6', cx: 692, cy: 210, game: true,  legs: [],                              reverse: false, throb: true,  doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: null },
+  { city: 'chicago',   name: 'Chicago',    date: 'Day 7', cx: 692, cy: 210, game: false, legs: ['route-mil-chi','route-stp-mil','route-sea-stp'], reverse: true, throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: null },
   { city: 'stpaul',    name: 'In Transit', date: 'Day 8', cx: 597, cy: 162, game: false, legs: ['route-sea-stp'],               reverse: true,  throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: null },
   { city: 'seattle',   name: 'Home!',      date: 'Day 9', cx: 200, cy: 92,  game: false, legs: [],                              reverse: false, throb: false, doneLegs: ['route-sea-stp','route-stp-mil','route-mil-chi'], after: null },
 ];
@@ -997,6 +1019,66 @@ function applyPrivateData(data) {
     for (var i = 0; i < data.dayDetails.length; i++) {
       dayDetails[i] = data.dayDetails[i];
     }
+  }
+
+  if (data.constraints && data.days) {
+    var lodging = data.constraints.filter(function(c) { return c.type === 'lodging'; });
+    lodging.forEach(function(lodge) {
+      if (lodge.check_in) {
+        var ciDate = lodge.check_in.substring(0, 10);
+        var ciTime = formatTime(lodge.check_in.substring(11));
+        var ciDay = data.days.find(function(d) { return d.after && d.after.substring(0, 10) === ciDate; });
+        var ciPos = lodge.check_in_position || 'after';
+        if (ciDay) insertLodgingMarker(ciDay.index, 'Check-in ' + ciTime, ciPos, lodge.address);
+      }
+      if (lodge.check_out) {
+        var coDate = lodge.check_out.substring(0, 10);
+        var coTime = formatTime(lodge.check_out.substring(11));
+        var coDay = data.days.find(function(d) { return d.after && d.after.substring(0, 10) === coDate; });
+        if (coDay) insertLodgingMarker(coDay.index, 'Checkout ' + coTime, 'before', null);
+      }
+    });
+  }
+}
+
+function formatTime(hhmm) {
+  var parts = hhmm.split(':');
+  var h = parseInt(parts[0]);
+  var m = parts[1];
+  var ampm = h >= 12 ? 'PM' : 'AM';
+  if (h > 12) h -= 12;
+  if (h === 0) h = 12;
+  return h + ':' + m + ' ' + ampm;
+}
+
+function insertLodgingMarker(dayIdx, text, position, address) {
+  var group = document.querySelector('.day-group[data-day="' + dayIdx + '"]');
+  if (!group) return;
+  var marker = document.createElement('div');
+  marker.className = 'lodging-marker';
+  var inner = '<span class="lodging-marker-text">' + text + '</span>';
+  if (address) {
+    var mapsUrl = 'https://www.google.com/maps/dir/?api=1&destination='
+      + encodeURIComponent(address) + '&travelmode=transit';
+    inner += ' <span class="lodging-marker-address"><a href="' + mapsUrl + '" target="_blank">' + address + '</a></span>';
+  }
+  marker.innerHTML = inner;
+  if (position === 'before') {
+    var firstCard = group.querySelector('.card');
+    if (firstCard) {
+      group.insertBefore(marker, firstCard);
+    } else {
+      group.appendChild(marker);
+    }
+  } else if (position === 'before-last') {
+    var cards = group.querySelectorAll('.card');
+    if (cards.length > 1) {
+      group.insertBefore(marker, cards[cards.length - 1]);
+    } else {
+      group.appendChild(marker);
+    }
+  } else {
+    group.appendChild(marker);
   }
 }
 
