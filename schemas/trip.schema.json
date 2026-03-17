@@ -79,7 +79,9 @@
           "traveler": { "type": "string" },
           "time": { "type": "string", "description": "ISO 8601 datetime" },
           "direction": { "type": "string" },
+          "arrival": { "type": "string", "description": "ISO 8601 datetime for train arrival" },
           "check_in": { "type": "string" },
+          "check_in_position": { "type": "string" },
           "check_out": { "type": "string" }
         },
         "additionalProperties": false
